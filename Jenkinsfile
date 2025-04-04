@@ -45,8 +45,8 @@ pipeline {
             steps {
                 sshagent(['sh-key']) {
                     sh '''
-                        scp -o StrictHostKeyChecking=no deploy.sh ubuntu@<13.127.185.240>:/home/ubuntu/
-                        ssh ubuntu@<13.127.185.240> "chmod +x /home/ubuntu/deploy.sh && ./deploy.sh"
+                        scp -o StrictHostKeyChecking=no deploy.sh ubuntu@<15.207.206.25>:/home/ubuntu/
+                        ssh ubuntu@<15.207.206.25> "chmod +x /home/ubuntu/deploy.sh && ./deploy.sh"
                     '''
                 }
             }
