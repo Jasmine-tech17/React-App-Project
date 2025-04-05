@@ -4,7 +4,6 @@ services:
     build: .
     ports:
       - "80:80"
-    restart: always
 
   prometheus:
     image: prom/prometheus
