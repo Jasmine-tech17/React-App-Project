@@ -17,3 +17,5 @@ Jenkins- http://15.207.206.25:8080
 Prometheus- http://15.207.206.25:9090
 AlertManager- http://15.207.206.25:9093
 Blackbox exporter- http://15.207.206.25:9115
+
+Screenshots shared in the Github
