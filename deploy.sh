@@ -11,9 +11,19 @@ git clean -fd
 echo "Stopping old containers..."
 docker-compose down
 
-# Free up port 80 if needed
-echo "Freeing up port 80 if occupied..."
-sudo -n /usr/bin/fuser -k 80/tcp || echo "Port 80 was not occupied or permission denied"
+# Free up ports
+PORTS="80 9090 9093"
+
+echo "Freeing up required ports..."
+for PORT in $PORTS; do
+  PID=$(sudo lsof -t -i:$PORT)
+  if [ -n "$PID" ]; then
+    echo "Killing process on port $PORT (PID: $PID)"
+    sudo kill -9 $PID
+  else
+    echo "Port $PORT is not occupied"
+  fi
+done
 
 
 # Deploy new containers
