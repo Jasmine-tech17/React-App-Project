@@ -37,15 +37,15 @@ pipeline {
                 }
             }
             steps {
-                sshagent(['ssh-key']) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@15.207.206.25 << 'EOF'
-                            cd /home/ubuntu/React-App-Project || git clone https://github.com/Jasmine-tech17/React-App-Project.git && cd React-App-Project
-                            git pull origin $BRANCH_NAME
-                            chmod +x deploy.sh
-                            ./deploy.sh
-                        EOF
-                    '''
+				sshagent(['ssh-key']) {
+					sh """
+						ssh -o StrictHostKeyChecking=no ubuntu@15.207.206.25 << 'EOF'
+							cd /home/ubuntu/React-App-Project || git clone https://github.com/Jasmine-tech17/React-App-Project.git && cd React-App-Project
+							git pull origin \$BRANCH_NAME
+							chmod +x deploy.sh
+							./deploy.sh
+						EOF
+					"""
                 }
             }
         }
