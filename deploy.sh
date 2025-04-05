@@ -14,7 +14,7 @@ docker-compose down
 
 # Free up port 80 if needed
 echo "Freeing up port 80 if occupied..."
-sudo /usr/sbin/fuser -k 80/tcp || true
+sudo -n /usr/sbin/fuser -k 80/tcp || echo "Port 80 was not occupied or permission denied"
 
 # Deploy new containers
 echo "Deploying the Docker container..."
