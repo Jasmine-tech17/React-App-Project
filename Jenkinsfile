@@ -46,6 +46,8 @@ pipeline {
 							cd React-App-Project
 							git fetch origin ${env.BRANCH_NAME}
 							git reset --hard origin/${env.BRANCH_NAME}
+							chmod +x docker-cleanup.sh
+							./docker-cleanup.sh
 							chmod +x deploy.sh
 							./deploy.sh
 						'
