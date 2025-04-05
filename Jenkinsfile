@@ -30,28 +30,29 @@ pipeline {
         }
 
         stage('Deploy to EC2') {
-            when {
-                anyOf {
-                    branch 'dev'
-                    branch 'master'
-                }
-            }
-            steps {
+			when {
+				anyOf {
+					branch 'dev'
+					branch 'master'
+				}
+			}
+			steps {
 				sshagent(['ssh-key']) {
 					sh """
 						ssh -o StrictHostKeyChecking=no ubuntu@15.207.206.25 '
 							if [ ! -d "React-App-Project" ]; then
-								git clone https://github.com/Jasmine-tech17/React-App-Project.git
-								fi
-								cd React-App-Project
-								git pull origin ${env.BRANCH_NAME}
-								chmod +x deploy.sh
-								./deploy.sh
-								'
-					"""
-                }
-            }
-        }
+							git clone https://github.com/Jasmine-tech17/React-App-Project.git
+							fi
+							cd React-App-Project
+							git fetch origin ${env.BRANCH_NAME}
+							git reset --hard origin/${env.BRANCH_NAME}
+							chmod +x deploy.sh
+							./deploy.sh
+						'
+				"""
+				}
+			}
+		}
     }
 
     triggers {
