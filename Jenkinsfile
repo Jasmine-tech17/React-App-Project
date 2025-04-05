@@ -2,17 +2,11 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'jasmine08'   
+        DOCKERHUB_USER = 'jasmine08'
         IMAGE_NAME = 'react-app'
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/Jasmine-tech17/React-App-Project.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME .'
@@ -45,8 +39,12 @@ pipeline {
             steps {
                 sshagent(['ssh-key']) {
                     sh '''
-                        scp -o StrictHostKeyChecking=no deploy.sh ubuntu@15.207.206.25:/home/ubuntu/
-                        ssh -o StrictHostKeyChecking=no ubuntu@15.207.206.25 "chmod +x /home/ubuntu/deploy.sh && /home/ubuntu/deploy.sh"
+                        ssh -o StrictHostKeyChecking=no ubuntu@15.207.206.25 << 'EOF'
+                            cd /home/ubuntu/React-App-Project || git clone https://github.com/Jasmine-tech17/React-App-Project.git && cd React-App-Project
+                            git pull origin $BRANCH_NAME
+                            chmod +x deploy.sh
+                            ./deploy.sh
+                        EOF
                     '''
                 }
             }
@@ -57,3 +55,4 @@ pipeline {
         githubPush()
     }
 }
+
