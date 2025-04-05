@@ -1,0 +1,11 @@
+groups:
+  - name: ReactAppAlerts
+    rules:
+      - alert: ReactAppDown
+        expr: probe_success == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "React App is Down"
+          description: "Blackbox Exporter failed to probe the React app at {{ $labels.instance }}. The app might be down or unreachable."

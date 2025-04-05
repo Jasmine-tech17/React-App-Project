@@ -1,0 +1,18 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'                  # SMTP server & port
+  smtp_from: 'jasminechaudhary1997@gmail.com'                     # Sender email
+  smtp_auth_username: 'jasminechaudhary1997@gmail.com'            # Gmail login email
+  smtp_auth_password: 'sgknhjclgzkwkxbr'               # App Password (not Gmail login password)
+  smtp_require_tls: true                                # Ensure secure connection
+
+route:
+  receiver: email-alert
+  group_wait: 10s                                       # Wait time before sending first alert in group
+  group_interval: 30s                                   # Wait time between alerts in group
+  repeat_interval: 1h                                   # Resend same alert after this interval
+
+receivers:
+  - name: email-alert
+    email_configs:
+      - to: 'jasminechaudhary1997@gmail.com'             # Where to send the alert
+        send_resolved: true                             # Send email when alert is resolved
