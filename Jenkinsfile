@@ -39,12 +39,15 @@ pipeline {
             steps {
 				sshagent(['ssh-key']) {
 					sh """
-						ssh -o StrictHostKeyChecking=no ubuntu@15.207.206.25 << 'EOF'
-							cd /home/ubuntu/React-App-Project || git clone https://github.com/Jasmine-tech17/React-App-Project.git && cd React-App-Project
-							git pull origin \$BRANCH_NAME
-							chmod +x deploy.sh
-							./deploy.sh
-						EOF
+						ssh -o StrictHostKeyChecking=no ubuntu@15.207.206.25 '
+							if [ ! -d "React-App-Project" ]; then
+								git clone https://github.com/Jasmine-tech17/React-App-Project.git
+								fi
+								cd React-App-Project
+								git pull origin ${env.BRANCH_NAME}
+								chmod +x deploy.sh
+								./deploy.sh
+								'
 					"""
                 }
             }
